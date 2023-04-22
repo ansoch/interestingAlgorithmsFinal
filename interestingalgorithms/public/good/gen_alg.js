@@ -54,7 +54,6 @@ class Tour{
         this.tour.push(curCity.num);
         let nextCity = cities[this.tour[0]];
         for (let i = 0; i < numCities; i++){
-            //console.log(this.tour);
             nextCity = cities[this.tour[0]];
             if (getRandomInt(99) <= chanceUseCloseCity){
                 for (let j = 0; j < numCloseCities; j++){
@@ -71,7 +70,6 @@ class Tour{
 
     }
     calculateDist(distCities){
-        //console.log(this);
         this.distance = 0;
         for (let i = 1; i < this.tour.length; i++) this.distance += distCities[this.tour[i-1]][this.tour[i]];
     }
@@ -122,13 +120,13 @@ let stopFlag = 0;
 document.getElementById("stop").onclick = () => stopFlag = 1;
 
 let maxGen = 10000;
-let chanceUseCloseCity = 90;
-let popSize = 100;
+let chanceUseCloseCity = 99;
+let popSize = 10;
 let wrGroupSize = 5;
 let mutChance = 3;
 let counter = 0;
-let drawCount = 1000;
 ///
+
 function genAlg(citiesCord){
 
     let numCities = citiesCord.length;
@@ -153,6 +151,7 @@ function genAlg(citiesCord){
 
     getBestPath(citiesCord, numCities, distCities, numCloseCities, cities, population);
 }
+
 function getBestPath(citiesCord, numCities, distCities, numCloseCities, cities, population){
     let wrGroup = [];
     let time = 0;
@@ -172,14 +171,9 @@ function getBestPath(citiesCord, numCities, distCities, numCloseCities, cities, 
 
     if(population[0].distance < best.distance) {
         best = population[0];
+        drawTour(citiesCord, best);
         counter = 0;
     }
-
-    if (drawCount === 1000) {
-        drawTour(citiesCord, best);
-        drawCount = 0;
-    }
-    drawCount++;
 
     if (counter < maxGen && stopFlag === 0) timer = setTimeout(getBestPath, time, citiesCord, numCities, distCities, numCloseCities, cities, population);
     else stopFlag = 0;
